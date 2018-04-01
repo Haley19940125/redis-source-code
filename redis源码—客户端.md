@@ -281,10 +281,10 @@ handler is yet not installed. */
   time_t lastinteraction; /* Time of the last interaction, used for timeout */</br>
   time_t obuf_soft_limit_reached_time;/* 记录了输出缓冲区第一次到达软性限制的时间 */
 3. 客户端的创建</br>
-  为客户端创建相应的客户端状态，并将这个状态添加到clients链表的结尾。
+    为客户端创建相应的客户端状态，并将这个状态添加到clients链表的结尾。
 
-  结构图如下：
-  ![image](https://github.com/Haley19940125/redis-source-code/blob/master/clients%E9%93%BE%E8%A1%A8.png?raw=true)
+    结构图如下：
+    ![image](https://github.com/Haley19940125/redis-source-code/blob/master/clients%E9%93%BE%E8%A1%A8.png?raw=true)
 ### 客户端的释放
 源码如下：
 ```c
