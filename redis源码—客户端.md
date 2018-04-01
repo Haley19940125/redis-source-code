@@ -260,7 +260,7 @@ handler is yet not installed. */
 
   查找命令表，并将客户端状态的cmd指向目标redisCommand结构的整个过程如下：
   ![image](https://github.com/Haley19940125/redis-source-code/blob/master/%E5%91%BD%E4%BB%A4%E5%AE%9E%E7%8E%B0.png?raw=true)
-  - 输出缓冲区</br>
+- 输出缓冲区</br>
   char buf[16*1024]：保存执行完命令所得命令回复信息的静态缓冲区，它的大小是固定的，所以主要保存的是一些比较短的回复。分配client结构空间时，就会分配一个16K的大小。</br>
   int bufpos：记录静态缓冲区的偏移量，也就是buf数组已经使用的字节数。</br>
   以上是固定大小的缓冲区属性。</br>
@@ -277,14 +277,14 @@ handler is yet not installed. */
 0表示客户端未通过验证。（除AUTH命令外，其他命令会被服务器拒绝执行）1表示客户端通过验证。
 - int id：服务器对于每一个连接进来的都会创建一个ID，客户端的ID从1开始。每次重启服务器会刷新。
 - 和时间相关：</br>
-time_t ctime;           /* Client creation time. */</br>
-time_t lastinteraction; /* Time of the last interaction, used for timeout */</br>
-time_t obuf_soft_limit_reached_time;/* 记录了输出缓冲区第一次到达软性限制的时间 */
+  time_t ctime;           /* Client creation time. */</br>
+  time_t lastinteraction; /* Time of the last interaction, used for timeout */</br>
+  time_t obuf_soft_limit_reached_time;/* 记录了输出缓冲区第一次到达软性限制的时间 */
 3. 客户端的创建</br>
-为客户端创建相应的客户端状态，并将这个状态添加到clients链表的结尾。
+  为客户端创建相应的客户端状态，并将这个状态添加到clients链表的结尾。
 
-结构图如下：
-![image](https://github.com/Haley19940125/redis-source-code/blob/master/clients%E9%93%BE%E8%A1%A8.png?raw=true)
+  结构图如下：
+  ![image](https://github.com/Haley19940125/redis-source-code/blob/master/clients%E9%93%BE%E8%A1%A8.png?raw=true)
 ### 客户端的释放
 源码如下：
 ```c
