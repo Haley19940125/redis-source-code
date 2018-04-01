@@ -248,12 +248,12 @@ handler is yet not installed. */
 set key value
 存在客户端的querbuf属性是一个SDS值
 
-结构图如下：
+结构图如下：</br>
 ![image](https://github.com/Haley19940125/redis-source-code/blob/master/querybuf.png?raw=true)
 - int argc：命令参数个数。</br>
 robj *argv：命令参数列表。是一个数组，数组的每一项都是一个字符串对象。其中argv[0]是要执行的命令，其他项是传给命令的参数。
 
-结构图如下：
+结构图如下：</br>
 ![image](https://github.com/Haley19940125/redis-source-code/blob/master/argv%E5%92%8Cargc.png?raw=true)
 - struct redisCommand *cmd, *lastcmd：当服务器得到argv和argc属性的值后，服务器将根据项rgv[0]的值，查找到命令实现函数。
 命令表是一个字典，字典的键是一个SDS的结构，保存了命令的名字，字典的值是命令所对应的redisCommand结构（它保存了命令的实现函数、命令的标志、命令应给定的参数、命令的总执行次数和消耗时长等信息）。
