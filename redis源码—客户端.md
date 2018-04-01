@@ -244,35 +244,35 @@ handler is yet not installed. */
 #define CLIENT_MODULE (1<<27) /* Non connected client used by some module. */
 ```
 - sds querybuf：保存客户端发来命令请求的输入缓冲区。以Redis通信协议的方式保存。</br>
-###### example：
-set key value
-存在客户端的querbuf属性是一个SDS值
+  ###### example：
+  set key value
+  存在客户端的querbuf属性是一个SDS值
 
-结构图如下：</br>
-![image](https://github.com/Haley19940125/redis-source-code/blob/master/querybuf.png?raw=true)
+  结构图如下：</br>
+  ![image](https://github.com/Haley19940125/redis-source-code/blob/master/querybuf.png?raw=true)
 - int argc：命令参数个数。</br>
-robj *argv：命令参数列表。是一个数组，数组的每一项都是一个字符串对象。其中argv[0]是要执行的命令，其他项是传给命令的参数。
+  robj *argv：命令参数列表。是一个数组，数组的每一项都是一个字符串对象。其中argv[0]是要执行的命令，其他项是传给命令的参数。
 
-结构图如下：</br>
-![image](https://github.com/Haley19940125/redis-source-code/blob/master/argv%E5%92%8Cargc.png?raw=true)
+  结构图如下：</br>
+  ![image](https://github.com/Haley19940125/redis-source-code/blob/master/argv%E5%92%8Cargc.png?raw=true)
 - struct redisCommand *cmd, *lastcmd：当服务器得到argv和argc属性的值后，服务器将根据项rgv[0]的值，查找到命令实现函数。
 命令表是一个字典，字典的键是一个SDS的结构，保存了命令的名字，字典的值是命令所对应的redisCommand结构（它保存了命令的实现函数、命令的标志、命令应给定的参数、命令的总执行次数和消耗时长等信息）。
 
-查找命令表，并将客户端状态的cmd指向目标redisCommand结构的整个过程如下：
-![image](https://github.com/Haley19940125/redis-source-code/blob/master/%E5%91%BD%E4%BB%A4%E5%AE%9E%E7%8E%B0.png?raw=true)
-- 输出缓冲区</br>
-char buf[16*1024]：保存执行完命令所得命令回复信息的静态缓冲区，它的大小是固定的，所以主要保存的是一些比较短的回复。分配client结构空间时，就会分配一个16K的大小。</br>
-int bufpos：记录静态缓冲区的偏移量，也就是buf数组已经使用的字节数。</br>
-以上是固定大小的缓冲区属性。</br>
+  查找命令表，并将客户端状态的cmd指向目标redisCommand结构的整个过程如下：
+  ![image](https://github.com/Haley19940125/redis-source-code/blob/master/%E5%91%BD%E4%BB%A4%E5%AE%9E%E7%8E%B0.png?raw=true)
+  - 输出缓冲区</br>
+  char buf[16*1024]：保存执行完命令所得命令回复信息的静态缓冲区，它的大小是固定的，所以主要保存的是一些比较短的回复。分配client结构空间时，就会分配一个16K的大小。</br>
+  int bufpos：记录静态缓冲区的偏移量，也就是buf数组已经使用的字节数。</br>
+  以上是固定大小的缓冲区属性。</br>
 
-结构图如下：</br>
-![image](https://github.com/Haley19940125/redis-source-code/blob/master/%E5%9B%BA%E5%AE%9A%E7%BC%93%E5%86%B2%E5%8C%BA.png?raw=true)
+  结构图如下：</br>
+  ![image](https://github.com/Haley19940125/redis-source-code/blob/master/%E5%9B%BA%E5%AE%9A%E7%BC%93%E5%86%B2%E5%8C%BA.png?raw=true)
 
-可变大小缓冲区属性：</br>
-list *reply：保存命令回复的链表。因为静态缓冲区大小固定，主要保存固定长度的命令回复，当处理一些返回大量回复的命令，则会将命令回复以链表的形式连接起来。
+  可变大小缓冲区属性：</br>
+  list *reply：保存命令回复的链表。因为静态缓冲区大小固定，主要保存固定长度的命令回复，当处理一些返回大量回复的命令，则会将命令回复以链表的形式连接起来。
 
-结构图如下：</br>
-![image](https://github.com/Haley19940125/redis-source-code/blob/master/%E5%8F%AF%E5%8F%98%E5%A4%A7%E5%B0%8F%E7%BC%93%E5%86%B2%E5%8C%BA.png?raw=true)
+  结构图如下：</br>
+  ![image](https://github.com/Haley19940125/redis-source-code/blob/master/%E5%8F%AF%E5%8F%98%E5%A4%A7%E5%B0%8F%E7%BC%93%E5%86%B2%E5%8C%BA.png?raw=true)
 - int authenticated:身份验证</br>
 0表示客户端未通过验证。（除AUTH命令外，其他命令会被服务器拒绝执行）1表示客户端通过验证。
 - int id：服务器对于每一个连接进来的都会创建一个ID，客户端的ID从1开始。每次重启服务器会刷新。
